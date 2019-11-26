@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+  Education
+{% endblock title %}
+
+{% block content %}
+
+  {% for education in educations %}
+    <div class="card vertical-margin padding">
+      <div class = "row padding">
+        <h6 class = "education-title">
+          {{ education.degree }} | {{education.state}} ({{education.graduation_date}})
+          <hr>
+        </h6>
+        <div class="row">
+        <div class="col s12">
+           1. <span class = "padding-bottom vertical-align"> Completed {{ education.degree }} in {{ education.school_name }} school, {{education.city}}</span>        
+        </div>
+        <div class="col s12">
+           2. Scored {{ education.obtained_marks}} out of {{ education.total_marks }}        
+        </div>
+        <div class="col s12">
+           3. Successfully completed {{ education.field_of_study }} course        
+        </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col s6 center-align">
+              <a class="btn-floating btn-small cyan hoverable" href = "{% url 'education_edit' education.id %}" style = "font-size: 10px"><i class="material-icons">edit</i></a>
+            </div>
+            <div class="col s6 center-align">
+              <a class="btn-floating btn-small red hoverable" href = "{% url 'education_delete' education.id %}" style = "font-size: 10px"><i class="material-icons">delete</i></a>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>    
+  {% endfor %}
+  
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large hoverable red" href = "{% url 'education_add' %}">
+    <i class="large material-icons">add</i>
+  </a>
+  </div>
+
+{% endblock content %}

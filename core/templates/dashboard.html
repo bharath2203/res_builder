@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load test_tags %}
+
+{% block title %}
+  Resume
+{% endblock title %}
+
+{% block content %}
+
+  <div class="resume card padding">
+
+    <div class="row">
+      <div class="col s4">
+        <img class = "image"  src="{% static 'uploaded/user.png' %}" alt="user">
+        <p class = "hello center-align">Hello</p>
+        <p class = "name center-align">MY NAME IS</p>
+        <hr>
+        <p class = "personal-name center-align">{{ personal.first_name }} {{ personal.last_name }}</p>
+        <hr>
+        <p class = "light-texxt center-align">{{ personal.address }}</p>
+        <p class = "light-texxt center-align">{{ personal.city }} ({{ personal.zipcode }})</p>
+        <p class = "light-texxt center-align">{{ personal.country }}</p>
+        <br><br><br>
+        <p class="right-heading">Skills</p>
+        <hr>
+        {% for skill in skills %}
+          <p>{{ skill.skill }}</p>
+          <div class="progress">
+            <div class="determinate" style="width: {{ skill.level | mul_10 }}%"></div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="col s8 border-left">
+      <p class = "right-heading"> Education </p>
+      <hr>
+      {% for education  in educations %}
+      <div class="row">
+      <div class="col s2">
+        <p class = "semi-heading" >{{ education.graduation_date}}</p>
+      </div>
+      <div class="col s10">
+      <p>{{ education.degree }}</p>
+      <p class = "semi-heading">{{ education.school_name }} | {{ education.field_of_study }}</p>
+      <hr>
+      </div>
+      </div>
+      {% endfor %}
+
+      <!-- Projects -->
+      <p class = "right-heading"> Projects </p>
+      <hr>
+      {% for project  in projects %}
+      <div class="row">
+      <div class="col s2">
+        <p class = "semi-heading" >{{ project.name }}</p>
+      </div>
+      <div class="col s10">
+      <p>{{ project.description }}</p>
+      <p class = "semi-heading"> ({{ project.started_date }} - {{ project.end_date }}) </p>
+      <p class = "semi-heading">{{ project.tech_used }}</p>
+      <hr>
+      </div>
+      </div>
+      {% endfor %}
+
+      <!-- Experience  -->
+
+      <p class = "right-heading"> Experience </p>
+      <hr>
+      {% for experience  in experiences %}
+      <div class="row">
+      <div class="col s2">
+        <p class = "semi-heading" >{{ experience.company_name }}</p>
+      </div>
+      <div class="col s10">
+      <p>{{ experience.description }}</p>
+      <p class = "semi-heading"> ({{ experience.started_date }} - {{ experience.end_date }}) </p>
+      <p class = "semi-heading">Worked as {{ experience.position }}</p>
+      <hr>
+      </div>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}

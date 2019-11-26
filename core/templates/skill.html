@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load test_tags %}
+{% block title %}
+  Education
+{% endblock title %}
+
+{% block content %}
+
+    <div class="card vertical-margin padding">
+      <div class = "container">
+        <h6 class = "education-title">
+          Skills
+          <hr>
+        </h6>
+        <ul>
+        {% for skill  in skills %}
+         <ul class = "collection">
+          <li class="collection-item">
+           <p>{{ skill.skill }}</p>
+          <div class="progress">
+            <div class="determinate" style="width: {{ skill.level | mul_10}}%"></div>
+          </div>
+            <a class="btn-floating btn-small hoverable red" href = "{% url 'skill_delete' skill.id %}">
+                <i class="material-icons">delete</i>
+            </a>            
+          </li>
+         </ul>
+        {% endfor %}  
+        </ul>
+      </div>
+    </div>    
+  <div class="card padding">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="row">
+      <div class="form-group col s6">
+        {{ form.skill | as_crispy_field }}
+      </div>
+      <div class="form-group col s6">
+        {{ form.level | as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <input type="submit" class = "btn btn-primary"  value="ADD">
+    </form>
+    </div>
+  </div>
+{% endblock content %}

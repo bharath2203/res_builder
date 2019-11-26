@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+LOGIN
+{% endblock title %}
+
+{% block content %}
+
+<main class="login-form">
+    <div class="cotainer padding vertical-margin">
+        <div class="row center-align">
+          <div class="col s2"></div>
+            <div class="col s8">
+                <div class="card">
+                <div class="card-content">
+                        <form action="" method="post">
+                          {% csrf_token %}
+                            <div class="row">
+                              <div class="input-field col s12">
+                                {{ form.username }}
+                                <label for="first_name">User Name</label>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="input-field col s12">
+                               {{ form.password }}
+                                <label for="password">Password</label>
+                              </div>
+                            </div>
+
+                            
+                            <div class="col-md-6 offset-md-4">
+                                <input type="submit" class="btn btn-primary" value = "LOGIN" >
+                            </div>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+          <div class="col s2"></div>
+        </div>
+    </div>
+    </div>
+
+</main>
+
+
+{% endblock content %}

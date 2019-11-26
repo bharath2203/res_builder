@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+  Education
+{% endblock title %}
+
+{% block content %}
+
+  {% for project in projects %}
+    <div class="card vertical-margin padding">
+      <div class = "row padding">
+        <h6 class = "education-title">
+          {{ project.name }} | ({{project.started_date}}) - ({{project.end_date}})
+          <hr>
+        </h6>
+        <div class="col s12">
+           {{ project.description }}
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col s6 center-align">
+              <a class="btn-floating btn-small cyan hoverable" href = "{% url 'project_edit' project.id %}" style = "font-size: 10px"><i class="material-icons">edit</i></a>
+            </div>
+            <div class="col s6 center-align">
+              <a class="btn-floating btn-small red hoverable" href = "{% url 'project_delete' project.id %}" style = "font-size: 10px"><i class="material-icons">delete</i></a>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>    
+  {% endfor %}
+
+    <div class="fixed-action-btn">
+  <a class="btn-floating btn-large hoverable red" href = "{% url 'project_add' %}">
+    <i class="large material-icons">add</i>
+  </a>
+  </div>
+  
+{% endblock content %}

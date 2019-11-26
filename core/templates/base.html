@@ -1,0 +1,95 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>{% block title %} {% endblock%}</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/materialize.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="wrap">
+    <header>
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="{% url 'personal' %}">Personal</a></li>
+      <li class="divider"></li>      
+      <li><a href="{% url 'education' %}">Education</a></li>
+      <li class="divider"></li>
+      <li><a href="{% url 'skill' %}">Skills</a></li>
+      <li class="divider"></li>
+      <li><a href="{% url 'project' %}">Projects</a></li>
+      <li class="divider"></li>
+      <li><a href="{% url 'experience' %}">Experience</a></li>
+    </ul>
+          <nav>
+            <div class="nav-wrapper">
+              <a href="#" class="brand-logo">RESUME MAKER</a>
+              {% if user.is_authenticated %}
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="{% url 'dashboard' %}">Resume</a></li>
+                <li><a class = "dropdown-trigger" data-target="dropdown1" href="#">Create<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a href="{% url 'logout' %}">Log-out</a></li>              
+              </ul>
+              {% endif %}
+            </div>
+          </nav>
+        {% comment %} <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand logo-text" href="#">RESUME MAKER</a> {% if user.is_authenticated %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse " id="navbarNavDropdown">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active selected">
+                        <a class="nav-link" href="{% url 'personal' %}">Personal<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active selected">
+                        <a class="nav-link" href="{% url 'education' %}">Education<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active selected">
+                        <a class="nav-link" href="{% url 'skill' %}">Education<span class="sr-only">(current)</span></a>
+                    </li>
+                    {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'faculty_list' 'Computer Science' %}">Feedback</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'edit_student' user.student.id %}">Edit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li> 
+                </ul>
+            </div>
+            {% endif %}
+        </nav> {% endcomment %}
+
+    </header>
+
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
+
+
+
+    <!-- Bootstrap core JavaScript -->
+
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script>
+    $(".dropdown-trigger").dropdown();
+    $(document).ready(function() {
+    $('.fixed-action-btn').floatingActionButton();
+    });
+    </script>
+</body>
+
+</html>

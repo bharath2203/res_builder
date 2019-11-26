@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+  Education
+{% endblock title %}
+
+{% block content %}
+
+  {% for experience in experiences %}
+    <div class="card vertical-margin padding">
+      <div class = "row padding">
+        <h6 class = "education-title">
+          {{ experience.company_name }} | ({{ experience.position }})
+          <hr>
+        </h6>
+        <div class="row">
+        <div class="col s12">
+           > successfully worked as {{ experience.position }} from {{ experience.started_date}} to {{ experience.end_date }}.
+        </div>
+        </div>
+               <div class="row">
+        <div class="col s12">
+           > {{ experience.description }}.
+        </div>
+        </div>
+ 
+        <div class="container">
+          <div class="row">
+            <div class="col s6 center-align">
+              <a class="btn-floating btn-small cyan hoverable" href = "{% url 'experience_edit' experience.id %}" style = "font-size: 10px"><i class="material-icons">edit</i></a>
+            </div>
+            <div class="col s6 center-align">
+              <a class="btn-floating btn-small red hoverable" href = "{% url 'experience_delete' experience.id %}" style = "font-size: 10px"><i class="material-icons">delete</i></a>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>    
+  {% endfor %}
+
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large hoverable red" href = "{% url 'experience_add' %}">
+    <i class="large material-icons">add</i>
+  </a>
+  </div>
+  
+{% endblock content %}

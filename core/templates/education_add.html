@@ -29,6 +29,7 @@
         {{ form.field_of_study | as_crispy_field }}
       </div>
       <div class="form-group col s6">
+        <div class = "errors"> {{ form.errors.graduation_date}} </div>
         {{ form.graduation_date | as_crispy_field }}
       </div>
     </div>

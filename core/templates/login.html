@@ -15,8 +15,14 @@ LOGIN
                 <div class="card-content">
                         <form action="" method="post">
                           {% csrf_token %}
+                          {{ form.non_field_errors }}
+                          {% if error %}
+                            <div class="row">{{error}}</div>
+                          
+                          {% endif %}
                             <div class="row">
                               <div class="input-field col s12">
+                                {{ form.errors.username}}
                                 {{ form.username }}
                                 <label for="first_name">User Name</label>
                               </div>
@@ -24,6 +30,7 @@ LOGIN
 
                             <div class="row">
                               <div class="input-field col s12">
+                                {{ form.errors.password}}
                                {{ form.password }}
                                 <label for="password">Password</label>
                               </div>

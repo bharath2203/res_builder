@@ -2,6 +2,8 @@ from django import forms
 from .models import Personal, Education, Skill, Project, Experience
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
+from django.core.exceptions import ValidationError
+import datetime
 
 class LoginForm(forms.Form):
   username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'User Name'}))
@@ -18,6 +20,21 @@ class EducationForm(forms.ModelForm):
   class Meta:
     model = Education
     exclude = ('user',)
+
+    widgets = {
+        'graduation_date': forms.NumberInput(attrs={'onchange': 'yearValidation(this.value)'})
+      }
+
+
+  def clean_graduation_date(self):
+    date = self.cleaned_data['graduation_date']
+    now = datetime.datetime.now()
+    year = now.year
+    if date > year:
+      raise ValidationError("Greater value than today")
+      return year
+    return date
+
 
 class SkillForm(forms.ModelForm):
   class Meta:

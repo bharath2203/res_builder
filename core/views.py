@@ -6,10 +6,13 @@ from .forms import LoginForm, PersonalForm, EducationForm, SkillForm, ProjectFor
 from django.contrib.auth.models import User
 from .models import Education, Skill, Personal, Project, Experience
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 # Create your views here.
 
+def nothing(request):
+  return redirect(reverse('dashboard')) 
 
-
+@login_required()
 def dashboard(request):
   context = {}
   educations = Education.objects.filter(user = request.user)
@@ -26,6 +29,24 @@ def dashboard(request):
   context['skills'] = skills
   context['experiences'] = experiences
   return render(request, 'dashboard.html', context)
+
+def resume(request, id):
+  context = {}
+  educations = Education.objects.filter(user = User.objects.get(username = id))
+  projects = Project.objects.filter(user = User.objects.get(username = id))
+  personals = Personal.objects.filter(user = User.objects.get(username = id))
+  if len(personals):
+    personal = personals[0]
+  skills = Skill.objects.filter(user = User.objects.get(username = id))
+  experiences = Experience.objects.filter(user = User.objects.get(username = id))
+  context['educations'] = educations
+  context['projects'] = projects
+  if len(personals): 
+    context['personal'] = personal
+  context['skills'] = skills
+  context['experiences'] = experiences
+  return render(request, 'dashboard.html', context)
+
 
 def res_login(request):
   if request.user.is_authenticated:
@@ -45,7 +66,7 @@ def res_login(request):
         login(request, user)
         return redirect(reverse('dashboard'))
       else:
-        return HttpResponse('Invalid Credentials')
+        return render(request, 'login.html', {'form' : form, 'error': 'Invalid Credentials'})
     else:
       return HttpResponse("Something wrong again")
   else:
@@ -58,6 +79,7 @@ def res_logout(request):
   return redirect(reverse('login'))
 
 
+@login_required()
 def personal(request):
   template = 'personal.html'
   try:
@@ -90,6 +112,7 @@ def personal(request):
     return render(request, template, {'form': form})
 
 
+@login_required()
 def education(request):
   template = "education.html"
   educations = Education.objects.filter(user = request.user)
@@ -109,6 +132,7 @@ def education(request):
     return render(request, template, {'form': form, 'educations': educations})
 
 
+@login_required()
 def education_add(request):
   template = "education_add.html"
   if request.method == 'POST':
@@ -119,15 +143,17 @@ def education_add(request):
       education = form.save(commit = False)
       education.user = request.user
       education.save()
+      messages.success(request, 'Added successfully')
       return redirect(reverse('education'))
-    else:
-      return HttpResponse(form.errors)
+    else:  
+      return render(request, template, {'form': form})
   else:
     form = EducationForm()
     return render(request, template, {'form': form})
 
 
 
+@login_required()
 def education_edit(request, id):
   template = "education_add.html"
   education = Education.objects.get(id = id)
@@ -142,12 +168,14 @@ def education_edit(request, id):
       education.save()
       return redirect(reverse('education'))
     else:
-      return HttpResponse(form.errors)
+      return render(request, template, {'form': form})
   else:
     form = EducationForm(instance = education)
     return render(request, template, {'form': form})
 
+@login_required()
 def education_delete(request, id):
+  messages.success(request, 'Deleted successfully')
   education = Education.objects.get(id = id)
   education.delete()
   return redirect(reverse('education'))
@@ -169,11 +197,13 @@ def skill(request):
     return render(request, template, {'form': form, 'skills': skills})
 
   
+@login_required()
 def skill_delete(request, id):
   Skill.objects.get(id = id).delete()
   return redirect(reverse('skill'))
 
 
+@login_required()
 def project(request):
   template = "project.html"
   projects = Project.objects.filter(user = request.user)  
@@ -191,6 +221,7 @@ def project(request):
     return render(request, template, {'form': form, 'projects': projects})
 
 
+@login_required()
 def project_add(request):
   template = "project_add.html"
   if request.method == 'POST':
@@ -210,6 +241,7 @@ def project_add(request):
 
 
 
+@login_required()
 def project_edit(request, id):
   template = "project_add.html"
   project = Project.objects.get(id = id)
@@ -229,11 +261,13 @@ def project_edit(request, id):
     form = ProjectForm(instance = project)
     return render(request, template, {'form': form})
 
+@login_required()
 def project_delete(request, id):
   project = Project.objects.get(id = id)
   project.delete()
   return redirect(reverse('project'))
 
+@login_required()
 def experience(request):
   template = "experience.html"
   experiences = Experience.objects.filter(user = request.user)  
@@ -251,6 +285,7 @@ def experience(request):
     return render(request, template, {'form': form, 'experiences': experiences})
 
 
+@login_required()
 def experience_add(request):
   template = "experience_add.html"
   if request.method == 'POST':
@@ -270,6 +305,7 @@ def experience_add(request):
 
 
 
+@login_required()
 def experience_edit(request, id):
   template = "experience_add.html"
   experience = Experience.objects.get(id = id)
@@ -289,6 +325,7 @@ def experience_edit(request, id):
     form = ExperienceForm(instance = experience)
     return render(request, template, {'form': form})
 
+@login_required()
 def experience_delete(request, id):
   experience = Experience.objects.get(id = id)
   experience.delete()

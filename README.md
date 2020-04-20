@@ -16,7 +16,6 @@ Linux:
 - source env/bin/activate
 
 3. pip install -r requirements.txt
-4. Go to res_builder folder.
 
 Run
 - python manage.py makemigrations

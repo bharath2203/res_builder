@@ -6,6 +6,7 @@ Steps to run the project
 
 1. git clone repository
 2. Add python environment and activate it.
+
 Windows:
 - python -m venv env
 - env\Scripts\activate

@@ -22,3 +22,4 @@ Run
 - python manage.py migrate
 - python manage.py runserver 
 
+Note: Use python3 in Linux environment.
